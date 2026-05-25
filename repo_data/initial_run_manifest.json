@@ -1,0 +1,14 @@
+{
+  "run_id": "wb-initial-20260525120359",
+  "run_type": "initial",
+  "languages": [
+    "java"
+  ],
+  "generated_at": "2026-05-25T12:03:59.757682+00:00",
+  "snapshots": {
+    "java": {
+      "initial_run": "repo_data/initial_run/java.json",
+      "current": "repo_data/current/java.json"
+    }
+  }
+}
