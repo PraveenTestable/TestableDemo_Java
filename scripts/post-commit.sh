@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Local post-commit hook simulation (install: cp scripts/post-commit.sh .git/hooks/post-commit)
-# Testing purpose -1
+# Testing purpose -2
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
