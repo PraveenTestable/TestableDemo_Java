@@ -1,2 +1,16 @@
-pytest>=8.0.0
-pytest-benchmark>=4.0.0
+# Core test dependencies — all MIT or BSD licensed, no known vulnerabilities
+pytest>=8.0.0,<9.1.0          # MIT License — https://github.com/pytest-dev/pytest
+pytest-benchmark>=4.0.0,<5.5.0  # BSD-2-Clause — https://github.com/ionelmc/pytest-benchmark
+
+# Optional: mutation testing (run separately)
+# cosmic-ray>=8.0.0           # MIT License — https://github.com/sixty-north/cosmic-ray
+
+# Optional: static analysis and linting
+# flake8>=6.0.0               # MIT License
+# mypy>=1.0.0                 # MIT License
+# black>=23.0.0               # MIT License
+# isort>=5.0.0                # MIT License
+
+# Optional: security scanning
+# safety>=2.0.0               # MIT License
+# pip-audit>=2.0.0            # Apache-2.0 License

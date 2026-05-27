@@ -1,0 +1,55 @@
+[build-system]
+requires = ["setuptools>=65.0", "wheel"]
+build-backend = "setuptools.backends.legacy:build"
+
+[project]
+name = "testable-demo-java"
+version = "1.1.0"
+description = "Whitebox Java control flow metrics demo — validated and scored by Testable"
+readme = "README.md"
+license = { file = "LICENSE" }
+authors = [{ name = "PraveenTestable" }]
+requires-python = ">=3.9"
+dependencies = [
+    "pytest>=8.0.0",
+    "pytest-benchmark>=4.0.0",
+]
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Topic :: Software Development :: Testing",
+    "Topic :: Software Development :: Quality Assurance",
+]
+
+[project.optional-dependencies]
+dev = [
+    "cosmic-ray>=8.0.0",
+    "flake8>=6.0.0",
+    "mypy>=1.0.0",
+    "black>=23.0.0",
+    "isort>=5.0.0",
+]
+security = [
+    "safety>=2.0.0",
+    "pip-audit>=2.0.0",
+]
+
+[project.scripts]
+whitebox = "whitebox.cli:main"
+
+[tool.black]
+line-length = 100
+target-version = ["py39", "py310", "py311", "py312"]
+
+[tool.isort]
+profile = "black"
+line_length = 100
+
+[tool.mypy]
+python_version = "3.9"
+strict = true
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-v --tb=short"

@@ -1,11 +1,14 @@
 {
-  "run_type": "commit_refresh",
+  "run_type": "initial",
   "language": "java",
   "profile": {
     "language": "java",
     "files": [
       "sample_code/java/CoverageVerification.java",
       "sample_code/java/PaymentRouter.java",
+      "sample_code/java/PerformanceBenchmark.java",
+      "sample_code/java/TransactionProcessor.java",
+      "sample_code/java/TransactionProcessorVerification.java",
       "tests/test_data_flow.py",
       "tests/test_engine_and_trigger.py",
       "tests/test_metrics_comprehensive.py",
@@ -14,22 +17,22 @@
       "tests/test_profiler_paths.py",
       "tests/test_score_engine.py"
     ],
-    "file_count": 9,
-    "lines_of_code": 798,
-    "source_loc": 247,
-    "branch_points": 71,
-    "decision_nodes": 76,
-    "execution_paths": 72,
-    "covered_paths": 72,
-    "logical_subexpressions": 17,
-    "covered_subexpressions": 17,
+    "file_count": 12,
+    "lines_of_code": 1151,
+    "source_loc": 600,
+    "branch_points": 111,
+    "decision_nodes": 124,
+    "execution_paths": 112,
+    "covered_paths": 112,
+    "logical_subexpressions": 40,
+    "covered_subexpressions": 40,
     "truth_table_rows": 64,
     "covered_combinations": 64,
-    "verified_decisions": 76,
-    "cyclomatic_complexity": 72,
-    "test_assertions": 134,
-    "estimated_qa_hours": 2.06,
-    "profiled_at": "2026-05-27T13:09:57.840518+00:00"
+    "verified_decisions": 124,
+    "cyclomatic_complexity": 112,
+    "test_assertions": 172,
+    "estimated_qa_hours": 5.0,
+    "profiled_at": "2026-05-27T13:37:44.837094+00:00"
   },
   "control_flow_metrics": {
     "execution_path_integrity": 100.0,
@@ -37,7 +40,7 @@
     "logical_subexpression_validation": 100.0,
     "total_logical_combinatorial_coverage": 100.0,
     "technical_debt_impact": 100.0,
-    "qa_resource_allocation": 97.09
+    "qa_resource_allocation": 40.0
   },
   "metric_labels": {
     "execution_path_integrity": "Execution Path Integrity",
@@ -47,6 +50,6 @@
     "technical_debt_impact": "Technical Debt Impact",
     "qa_resource_allocation": "QA Resource Allocation"
   },
-  "composite_score": 99.71,
+  "composite_score": 94.0,
   "whitebox_domain": "control_flow_testing"
 }
