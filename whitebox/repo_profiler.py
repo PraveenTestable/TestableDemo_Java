@@ -16,16 +16,18 @@ REPO_DATA_DIR = ROOT / "repo_data"
 LANGUAGE_SAMPLE_DIR = SAMPLE_CODE_DIR / "java"
 SUPPORTED_LANGUAGE = "java"
 
-BRANCH_PATTERN = '\\b(if|else if|for|while|catch|switch|case)\\b'
-LOGICAL_PATTERN = '(&&|\\|\\||!)'
-ASSERT_PATTERN = '\\b(assert|Assert)\\b'
+BRANCH_PATTERN = r'\b(if|else if|for|while|catch|switch|case)\b'
+LOGICAL_PATTERN = r'(&&|\|\||!)'
+ASSERT_PATTERN = r'\b(assert|Assert)\b'
 SOURCE_EXTENSIONS = ('.java',)
 
 
 def detect_languages(base_dir: Path | None = None) -> list[str]:
     """Return supported languages found under sample_code (Java only)."""
     lang_dir = (base_dir or SAMPLE_CODE_DIR) / SUPPORTED_LANGUAGE
-    if lang_dir.exists() and any(lang_dir.rglob(f"*{ext}") for ext in SOURCE_EXTENSIONS):
+    if lang_dir.exists() and any(
+        True for ext in SOURCE_EXTENSIONS for _ in lang_dir.rglob(f"*{ext}")
+    ):
         return [SUPPORTED_LANGUAGE]
     return []
 
@@ -42,18 +44,30 @@ def profile_language(language: str = SUPPORTED_LANGUAGE, base_dir: Path | None =
     lang_dir = (base_dir or SAMPLE_CODE_DIR) / SUPPORTED_LANGUAGE
 
     files: list[str] = []
-    contents: list[str] = []
-    for ext in SOURCE_EXTENSIONS:
-        for path in lang_dir.rglob(f"*{ext}"):
-            files.append(str(path.relative_to(ROOT)))
-            contents.append(path.read_text(encoding="utf-8"))
+    source_contents: list[str] = []
+    test_contents: list[str] = []
 
+    for ext in SOURCE_EXTENSIONS:
+        for path in sorted(lang_dir.rglob(f"*{ext}")):
+            if path.is_file():
+                files.append(str(path.relative_to(ROOT)))
+                source_contents.append(path.read_text(encoding="utf-8"))
+
+    test_dir = ROOT / "tests"
+    if test_dir.exists():
+        for path in sorted(test_dir.rglob("*.py")):
+            if path.is_file():
+                files.append(str(path.relative_to(ROOT)))
+                test_contents.append(path.read_text(encoding="utf-8"))
+
+    contents = source_contents + test_contents
     merged = "\n".join(contents)
+    source_loc = sum(1 for line in "\n".join(source_contents).splitlines() if line.strip())
     loc = sum(1 for line in merged.splitlines() if line.strip())
 
     branch_points = _count_pattern(merged, BRANCH_PATTERN)
     logical_subexpressions = max(1, _count_pattern(merged, LOGICAL_PATTERN))
-    decision_nodes = branch_points + _count_pattern(merged, r"\bswitch\b|\bcase\b")
+    decision_nodes = branch_points + _count_pattern(merged, r'\bswitch\b|\bcase\b')
     execution_paths = max(1, branch_points + 1)
     truth_table_rows = min(64, 2 ** min(decision_nodes, 6))
 
@@ -85,6 +99,7 @@ def profile_language(language: str = SUPPORTED_LANGUAGE, base_dir: Path | None =
         "files": files,
         "file_count": len(files),
         "lines_of_code": loc,
+        "source_loc": source_loc,
         "branch_points": branch_points,
         "decision_nodes": decision_nodes,
         "execution_paths": execution_paths,
@@ -96,7 +111,7 @@ def profile_language(language: str = SUPPORTED_LANGUAGE, base_dir: Path | None =
         "verified_decisions": verified_decisions,
         "cyclomatic_complexity": branch_points + 1,
         "test_assertions": test_assertions,
-        "estimated_qa_hours": round(max(1.0, loc / 120), 2),
+        "estimated_qa_hours": round(max(0.5, source_loc / 120), 2),
         "profiled_at": datetime.now(timezone.utc).isoformat(),
     }
     return profile

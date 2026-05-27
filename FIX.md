@@ -1,25 +1,11 @@
-# Known Mistake — Commit Score Updates Always Report Zero Delta
+# Commit Score Delta — Resolved
 
-## Symptom
+The commit trigger previously refreshed `repo_data/current/` before reading the prior
+snapshot, so score deltas were always zero.
 
-After committing code changes, Whitebox **Control Flow** scores stay unchanged.  
-`score_history.json` records `"delta": 0.0` for every commit even when source files changed.
+## Resolution
 
-## Root cause
-
-In `whitebox/commit_trigger.py`, `on_commit()` calls `update_current_repo_data()` **before** loading the prior snapshot:
-
-```python
-after = update_current_repo_data(language)   # overwrites repo_data/current/
-before = load_language_repo_data(language)     # reads the snapshot we just wrote
-delta = score_delta(before, after)             # always identical → delta 0
-```
-
-`load_language_repo_data()` correctly reads `repo_data/current/{language}.json`, but that file was already replaced, so `before` and `after` are the same object.
-
-## Simple fix
-
-Swap the order — capture **before**, then re-profile **after**:
+`whitebox/commit_trigger.py` now captures the prior snapshot first, then re-profiles:
 
 ```python
 before = load_language_repo_data(language)
@@ -30,22 +16,10 @@ delta = score_delta(before, after)
 ## Verify
 
 ```bash
-python -m whitebox.cli initial-run
-
-# Apply fix in commit_trigger.py, then:
-python -m whitebox.cli on-commit --commit-sha demo-fix-001
+python3 -m whitebox.cli initial-run
+python3 -m whitebox.cli on-commit --commit-sha demo-fix-001
 cat repo_data/score_history.json
 ```
 
-After the fix, edit any file under `sample_code/` and rerun `on-commit` — `composite_score` and per-metric deltas should reflect the change.
-
-## Metrics affected
-
-All six Control Flow metrics are recomputed on each commit:
-
-- Execution Path Integrity
-- Decision Outcome Verification
-- Logical Sub-expression Validation
-- Total Logical Combinatorial Coverage
-- Technical Debt Impact
-- QA Resource Allocation
+After modifying sources under `sample_code/java/`, rerun `on-commit` and confirm
+non-zero metric deltas in the score history.
