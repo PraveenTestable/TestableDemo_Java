@@ -21,23 +21,24 @@ All dependencies are tracked in `sbom.json` (CycloneDX format) and `requirements
 
 All public APIs validate inputs before processing:
 - `TransactionProcessor.processBatch()` — validates currency and amount range.
-- `PaymentRouter.route()` — validates HTTP method against allowlist.
+- `PaymentRouter.route()` — validates HTTP method against an allowlist.
 - `whitebox.commit_trigger.on_commit()` — validates commit SHA is non-empty.
-- `whitebox.metrics.ControlFlowMetrics.from_dict()` — validates all required keys present and numeric.
+- `whitebox.metrics.ControlFlowMetrics.from_dict()` — validates all required keys are present and numeric.
 
 ## Data Flow Security
 
 - No PII is logged or persisted. All metric keys refer to code-structure measurements only.
 - Repository data stored in `repo_data/` contains only aggregate scores and timestamps.
-- No user data, credentials, or secrets are processed by this tool.
+- No external data, credentials, or secrets are processed by this tool.
 
-## Authentication & Authorization
+## Access Control
 
-- The whitebox scoring tool does not handle user authentication.
-- Access to the CI/CD pipeline is controlled via GitHub Actions secrets.
+- This tool operates in read-only mode on source repositories.
+- CI/CD pipeline access is controlled via GitHub Actions environment variables.
 - No hardcoded credentials exist in this repository (verified via `detect-secrets` pre-commit hook).
+- All output files contain structural metrics only — no personal or sensitive information.
 
-## Reporting a Vulnerability
+## Vulnerability Reporting
 
-Please report security issues by opening a GitHub issue marked `[SECURITY]`.
-We aim to respond within 48 hours and patch within 7 days for critical issues.
+Please open a GitHub issue labelled `[SECURITY]` to report potential issues.
+We target a 48-hour initial response and a 7-day patch turnaround for confirmed findings.

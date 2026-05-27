@@ -1,4 +1,4 @@
-"""Score engine: composite deltas and history persistence."""
+"""Score engine: composite deltas and metric log persistence."""
 
 from __future__ import annotations
 
@@ -10,7 +10,7 @@ from typing import Any
 from whitebox.metrics import ControlFlowMetrics, compute_composite_score
 from whitebox.repo_profiler import REPO_DATA_DIR
 
-HISTORY_PATH = REPO_DATA_DIR / "score_history.json"
+METRIC_LOG_PATH = REPO_DATA_DIR / "metric_log.json"
 
 
 def load_metrics_from_repo_data(data: dict[str, Any]) -> ControlFlowMetrics:
@@ -58,23 +58,23 @@ def score_delta(before: dict[str, Any], after: dict[str, Any]) -> dict[str, Any]
 
 
 def append_score_history(entry: dict[str, Any]) -> Path:
-    """Append a scored entry to the score history JSON file."""
-    HISTORY_PATH.parent.mkdir(parents=True, exist_ok=True)
+    """Append a scored entry to the metric log JSON file."""
+    METRIC_LOG_PATH.parent.mkdir(parents=True, exist_ok=True)
     history: list[dict[str, Any]] = []
-    if HISTORY_PATH.exists():
-        history = json.loads(HISTORY_PATH.read_text(encoding="utf-8"))
+    if METRIC_LOG_PATH.exists():
+        history = json.loads(METRIC_LOG_PATH.read_text(encoding="utf-8"))
 
     entry.setdefault("recorded_at", datetime.now(timezone.utc).isoformat())
     history.append(entry)
-    HISTORY_PATH.write_text(json.dumps(history, indent=2), encoding="utf-8")
-    return HISTORY_PATH
+    METRIC_LOG_PATH.write_text(json.dumps(history, indent=2), encoding="utf-8")
+    return METRIC_LOG_PATH
 
 
 def get_latest_score(language: str) -> dict[str, Any] | None:
-    """Return the most recent history entry for the given language, or None."""
-    if not HISTORY_PATH.exists():
+    """Return the most recent log entry for the given language, or None."""
+    if not METRIC_LOG_PATH.exists():
         return None
-    history: list[dict[str, Any]] = json.loads(HISTORY_PATH.read_text(encoding="utf-8"))
+    history: list[dict[str, Any]] = json.loads(METRIC_LOG_PATH.read_text(encoding="utf-8"))
     for entry in reversed(history):
         if entry.get("language") == language:
             return entry

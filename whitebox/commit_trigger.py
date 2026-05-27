@@ -29,10 +29,10 @@ def on_commit(commit_sha: str, changed_languages: list[str] | None = None) -> di
 
     1. Capture prior repo_data/current/ snapshot
     2. Re-profile changed languages
-    3. Compute delta and append to score_history.json
+    3. Compute delta and append to metric_log.json
     """
-    if not commit_sha or not isinstance(commit_sha, str):
-        raise ValueError(f"commit_sha must be a non-empty string, got: {commit_sha!r}")
+    if not isinstance(commit_sha, str) or not commit_sha.strip():
+        raise ValueError(f"commit_sha must be a non-empty, non-whitespace string, got: {commit_sha!r}")
 
     languages = changed_languages or detect_languages()
     results: dict[str, Any] = {

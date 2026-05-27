@@ -1,0 +1,88 @@
+[
+  {
+    "commit_sha": "abc123",
+    "language": "java",
+    "before_composite": 100.0,
+    "after_composite": 100.0,
+    "delta": 0.0,
+    "per_metric_delta": {
+      "execution_path_integrity": 0.0,
+      "decision_outcome_verification": 0.0,
+      "logical_subexpression_validation": 0.0,
+      "total_logical_combinatorial_coverage": 0.0,
+      "technical_debt_impact": 0.0,
+      "qa_resource_allocation": 0.0
+    },
+    "recorded_at": "2026-05-25T12:03:59.927775+00:00"
+  },
+  {
+    "commit_sha": "def456",
+    "language": "java",
+    "before_composite": 100.0,
+    "after_composite": 33.29,
+    "delta": -66.71,
+    "per_metric_delta": {
+      "execution_path_integrity": -50.0,
+      "decision_outcome_verification": -66.67,
+      "logical_subexpression_validation": -68.75,
+      "total_logical_combinatorial_coverage": -84.38,
+      "technical_debt_impact": -31.25,
+      "qa_resource_allocation": -100.0
+    },
+    "recorded_at": "2026-05-25T12:03:59.929959+00:00"
+  },
+  {
+    "commit_sha": "taxonomy-gate-fix-v1",
+    "language": "java",
+    "before_composite": 99.71,
+    "after_composite": 99.71,
+    "delta": 0.0,
+    "improved": false,
+    "regressed": false,
+    "per_metric_delta": {
+      "execution_path_integrity": 0.0,
+      "decision_outcome_verification": 0.0,
+      "logical_subexpression_validation": 0.0,
+      "total_logical_combinatorial_coverage": 0.0,
+      "technical_debt_impact": 0.0,
+      "qa_resource_allocation": 0.0
+    },
+    "recorded_at": "2026-05-27T13:09:57.841134+00:00"
+  },
+  {
+    "commit_sha": "   ",
+    "language": "java",
+    "before_composite": 94.0,
+    "after_composite": 92.32,
+    "delta": -1.68,
+    "improved": false,
+    "regressed": true,
+    "per_metric_delta": {
+      "execution_path_integrity": 0.0,
+      "decision_outcome_verification": 0.0,
+      "logical_subexpression_validation": 0.0,
+      "total_logical_combinatorial_coverage": 0.0,
+      "technical_debt_impact": 0.0,
+      "qa_resource_allocation": -16.77
+    },
+    "recorded_at": "2026-05-27T13:59:06.834946+00:00"
+  },
+  {
+    "commit_sha": "  ",
+    "language": "java",
+    "before_composite": 92.32,
+    "after_composite": 92.32,
+    "delta": 0.0,
+    "improved": false,
+    "regressed": false,
+    "per_metric_delta": {
+      "execution_path_integrity": 0.0,
+      "decision_outcome_verification": 0.0,
+      "logical_subexpression_validation": 0.0,
+      "total_logical_combinatorial_coverage": 0.0,
+      "technical_debt_impact": 0.0,
+      "qa_resource_allocation": 0.0
+    },
+    "recorded_at": "2026-05-27T13:59:06.868824+00:00"
+  }
+]

@@ -69,7 +69,7 @@ def test_score_delta_regressed_flag() -> None:
 def test_append_and_get_latest_score(tmp_path, monkeypatch) -> None:
     monkeypatch.setattr("whitebox.score_engine.REPO_DATA_DIR", tmp_path / "repo_data")
     from whitebox import score_engine
-    score_engine.HISTORY_PATH = tmp_path / "repo_data" / "score_history.json"
+    score_engine.METRIC_LOG_PATH = tmp_path / "repo_data" / "metric_log.json"
     append_score_history({"commit_sha": "a1", "language": "java", "delta": 1.0})
     append_score_history({"commit_sha": "a2", "language": "java", "delta": 2.0})
     latest = get_latest_score("java")
@@ -79,7 +79,7 @@ def test_append_and_get_latest_score(tmp_path, monkeypatch) -> None:
 def test_get_latest_score_no_history_returns_none(tmp_path, monkeypatch) -> None:
     monkeypatch.setattr("whitebox.score_engine.REPO_DATA_DIR", tmp_path / "repo_data")
     from whitebox import score_engine
-    score_engine.HISTORY_PATH = tmp_path / "repo_data" / "score_history.json"
+    score_engine.METRIC_LOG_PATH = tmp_path / "repo_data" / "metric_log.json"
     assert get_latest_score("java") is None
 
 
